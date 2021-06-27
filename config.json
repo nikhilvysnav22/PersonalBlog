@@ -7,6 +7,9 @@
     "gthb_url":"https://twitter.com/login",
     "twt_url": "https://twitter.com/login",
     "blog_name": "Personal/ Business Blog",
-    "blog_place": "Houston,TX"
+    "blog_place": "Houston,TX",
+    "gmail-user": "",
+    "gmail-password": "",
+    "gmail-recipients": ["",""]
   }
 }

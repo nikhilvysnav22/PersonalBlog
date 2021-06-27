@@ -2,16 +2,27 @@ import json
 from flask import Flask , render_template ,redirect, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_mail import Mail,Message
 from datetime import datetime
+
 
 with open("config.json",'r' ) as config_file:
     params = json.load(config_file)["params"]
 
 app = Flask(__name__)
 
+app.config.update(
+    MAIL_SERVER='smtp.gmail.com',
+    MAIL_PORT='465',
+    MAIL_USE_SSL=True,
+    MAIL_USERNAME=params['gmail-user'],
+    MAIL_PASSWORD=params['gmail-password']
+)
+mail = Mail(app)
+
 local_server = True
 
-if (local_server):
+if local_server :
     app.config['SQLALCHEMY_DATABASE_URI'] = params['local_url']
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = params['prod_url']
@@ -58,6 +69,11 @@ def contact():
         entry_to_db = PostTable(name=name, emailid=emailid , phone=phone, message=message)
         db.session.add(entry_to_db)
         db.session.commit()
+        msg = Message("Business Question from " + name ,
+                      sender=params['gmail-user'],
+                      recipients=params['gmail-recipients'] ,
+                      body= message + '\n' + phone)
+        mail.send(msg)
 
     return render_template('contact.html',params = params)
 
