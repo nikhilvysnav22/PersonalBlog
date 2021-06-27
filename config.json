@@ -1,0 +1,12 @@
+{
+  "params": {
+    "local_server_binary": "True",
+    "local_url": "mysql://root:Discover123!@localhost/blog",
+    "prod_url": "mysql://root:Discover123!@localhost/blog",
+    "fb_url": "https://www.facebook.com/",
+    "gthb_url":"https://twitter.com/login",
+    "twt_url": "https://twitter.com/login",
+    "blog_name": "Personal/ Business Blog",
+    "blog_place": "Houston,TX"
+  }
+}

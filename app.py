@@ -1,11 +1,20 @@
+import json
 from flask import Flask , render_template ,redirect, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
-from flask_restful import APIException
+
+with open("config.json",'r' ) as config_file:
+    params = json.load(config_file)["params"]
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Discover123!@localhost/blog'
+
+local_server = True
+
+if (local_server):
+    app.config['SQLALCHEMY_DATABASE_URI'] = params['local_url']
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = params['prod_url']
 
 # initialize
 db = SQLAlchemy(app)
@@ -22,19 +31,19 @@ class PostTable(db.Model):
 
 @app.route("/")
 def home():
-    return render_template('index.html')
+    return render_template('index.html',params = params)
 
 @app.route("/homeclick")
 def homeclick():
-    return render_template('index.html')
+    return render_template('index.html',params = params)
 
 @app.route("/about")
 def about():
-    return render_template('about.html')
+    return render_template('about.html',params = params)
 
 @app.route("/post")
 def post():
-    return render_template('post.html')
+    return render_template('post.html',params = params)
 
 @app.route("/contact" , methods=['POST', 'GET'])
 def contact():
@@ -50,7 +59,7 @@ def contact():
         db.session.add(entry_to_db)
         db.session.commit()
 
-    return render_template('contact.html')
+    return render_template('contact.html',params = params)
 
 if __name__ == '__main__':
     app.run(debug=True, port=4015 , threaded=True)
