@@ -2,6 +2,7 @@ from flask import Flask , render_template ,redirect, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
+from flask_restful import APIException
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Discover123!@localhost/blog'
@@ -14,9 +15,9 @@ migrate = Migrate(app, db)
 class PostTable(db.Model):
     sno = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
     date = db.Column(db.DateTime, default= datetime.now())
-    name = db.Column(db.String(120), unique=False, nullable=False)
+    name = db.Column(db.String(50), unique=False, nullable=False)
     emailid = db.Column(db.String(50), unique=False, nullable=False)
-    phone = db.Column(db.String(15), unique=False, nullable=False)
+    phone = db.Column(db.Integer, unique=False, nullable=False)
     message = db.Column(db.String(120), unique=False, nullable=False)
 
 @app.route("/")
@@ -48,6 +49,7 @@ def contact():
         entry_to_db = PostTable(name=name, emailid=emailid , phone=phone, message=message)
         db.session.add(entry_to_db)
         db.session.commit()
+
     return render_template('contact.html')
 
 if __name__ == '__main__':
