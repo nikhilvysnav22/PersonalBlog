@@ -11,6 +11,7 @@ with open("config.json",'r' ) as config_file:
 
 app = Flask(__name__)
 
+
 app.config.update(
     MAIL_SERVER='smtp.gmail.com',
     MAIL_PORT='465',
@@ -40,6 +41,15 @@ class PostTable(db.Model):
     phone = db.Column(db.Integer, unique=False, nullable=False)
     message = db.Column(db.String(120), unique=False, nullable=False)
 
+class Posts(db.Model):
+    sno = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
+    title = db.Column(db.VARCHAR(500), unique=False, nullable=False)
+    content = db.Column(db.String(1000), unique=False, nullable=False)
+    date = db.Column(db.DateTime, default= datetime.now())
+    slug = db.Column(db.VARCHAR(45), unique=False, nullable=False)
+    img_file = db.Column(db.VARCHAR(45), unique=False, nullable=False)
+
+
 @app.route("/")
 def home():
     return render_template('index.html',params = params)
@@ -52,9 +62,13 @@ def homeclick():
 def about():
     return render_template('about.html',params = params)
 
-@app.route("/post")
-def post():
-    return render_template('post.html',params = params)
+
+@app.route("/post/<string:post_slug>" , methods = ['GET','POST'])
+def post(post_slug):
+
+    post = Posts.query.filter_by(slug=post_slug).first()
+    return render_template('post.html',params = params , post = post)
+
 
 @app.route("/contact" , methods=['POST', 'GET'])
 def contact():
