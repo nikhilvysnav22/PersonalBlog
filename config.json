@@ -4,13 +4,15 @@
     "local_url": "mysql://root:Discover123!@localhost/blog",
     "prod_url": "mysql://root:Discover123!@localhost/blog",
     "fb_url": "https://www.facebook.com/",
-    "gthb_url":"https://twitter.com/login",
+    "gthb_url":"https://github.com/",
     "twt_url": "https://twitter.com/login",
     "blog_name": "Personal/ Business Blog",
     "blog_place": "Houston,TX",
     "gmail-user": "",
     "gmail-password": "",
     "gmail-recipients": ["",""],
-    "about_me": " => Ambitious, Real , Bold "
+    "about_me": " => Ambitious, Real , Bold ",
+    "home_location": "http://www.houstontx.gov/",
+    "blog_display": 3
   }
 }

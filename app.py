@@ -52,11 +52,13 @@ class Posts(db.Model):
 
 @app.route("/")
 def home():
-    return render_template('index.html',params = params)
+    post = Posts.query.filter_by().all()[0:params['blog_display']]
+    return render_template('index.html',params = params ,post=post)
 
 @app.route("/homeclick")
 def homeclick():
-    return render_template('index.html',params = params)
+    post = Posts.query.filter_by().all()
+    return render_template('index.html',params = params , post=post)
 
 @app.route("/about")
 def about():
@@ -67,7 +69,7 @@ def about():
 def post(post_slug):
 
     post = Posts.query.filter_by(slug=post_slug).first()
-    return render_template('post.html',params = params , post = post)
+    return render_template('post.html',params = params , post=post)
 
 
 @app.route("/contact" , methods=['POST', 'GET'])
