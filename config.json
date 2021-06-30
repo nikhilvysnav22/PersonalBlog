@@ -13,6 +13,9 @@
     "gmail-recipients": ["",""],
     "about_me": " => Ambitious, Real , Bold ",
     "home_location": "http://www.houstontx.gov/",
-    "blog_display": 3
+    "blog_display": 3,
+    "login_image": "bootstrap-solid.svg",
+    "login_email": "xyz@gmail.com",
+    "login_password": "12345"
   }
 }
