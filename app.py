@@ -1,5 +1,5 @@
 import json
-from flask import Flask , render_template ,redirect, url_for, request
+from flask import Flask , render_template ,redirect, url_for, request , session
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_mail import Mail,Message
@@ -55,22 +55,30 @@ def home():
     post = Posts.query.filter_by().all()[0:params['blog_display']]
     return render_template('index.html',params = params ,post=post)
 
-@app.route("/homeclick")
+@app.route("/homeclick/")
 def homeclick():
     post = Posts.query.filter_by().all()
     return render_template('index.html',params = params , post=post)
 
 @app.route("/about")
 def about():
-    return render_template('about.html',params = params)
+    return render_template('about.html', params=params)
 
-@app.route("/dashboard" , methods = ['GET','POST'])
+@app.route("/dashboard" , methods=['GET','POST'])
 def dashboard():
     if request.method == 'POST':
+        username = request.form.get('uemail')
+        userpassword = request.form.get('upassword')
         post = Posts.query.filter_by().all()[0 :params['blog_display']]
-        return render_template('index.html',params = params ,post=post)
-    else:
-        return render_template('dashboard.html',params = params)
+
+        if ('user' in session) and (session['user'] == params['login_email']):
+            return render_template('after_login.html',params = params , post = post)
+
+        if (username == params['login_email']) and (userpassword == params['login_password']):
+            session['user'] = username
+            return render_template('after_login.html',params = params , post=post)
+
+    return render_template('dashboard.html',params = params)
 
 
 @app.route("/post/<string:post_slug>" , methods = ['GET','POST'])
@@ -102,4 +110,5 @@ def contact():
     return render_template('contact.html',params = params)
 
 if __name__ == '__main__':
+    app.secret_key = 'super secret key'
     app.run(debug=True, port=4015 , threaded=True)

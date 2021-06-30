@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<!-- Main Content-->
+        <main class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="my-5">
+                            <table class="table">
+                                <caption>Blog Posts</caption>
+                                <h1>File Upload</h1>
+                                <div class = "row ">
+<!--                                    File Upload-->
+                                </div>
+                                <h1>Edit Posts</h1>
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">SNO</th>
+                                      <th scope="col">Title</th>
+                                      <th scope="col">Content</th>
+                                      <th scope="col">Slug</th>
+                                        <th scope="col">Edit Section</th>
+                                        <th scope="col">Delete Section</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                  {% for posts in post %}
+                                    <tr>
+                                      <th scope="row">{{posts.sno}}</th>
+                                      <td>{{posts.title}}</td>
+                                      <td>{{posts.slug}}</td>
+                                        <td><button type="button" class="btn btn-primary">Edit</button></td>
+                                        <td><button type="button" class="btn btn-primary">Delete</button></td>
+                                    </tr>
+                                  {% endfor %}
+                                  </tbody>
+                                </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+{% endblock %}

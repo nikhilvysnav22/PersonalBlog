@@ -16,6 +16,10 @@
     "blog_display": 3,
     "login_image": "bootstrap-solid.svg",
     "login_email": "xyz@gmail.com",
-    "login_password": "12345"
+    "login_password": "12345",
+    "blog_name": "Nik's Blog",
+    "sbhd_blog_name": "Blog",
+    "blog_user": "Admin",
+    "title_admin": "Admin Panel"
   }
 }

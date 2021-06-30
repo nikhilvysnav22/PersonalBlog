@@ -5,8 +5,8 @@
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <div class="site-heading">
-                            <h1>Nik's Blog</h1>
-                            <span class="subheading">Blog</span>
+                            <h1>{{params['blog_name']}}</h1>
+                            <span class="subheading">{{params[sbhd_blog_name]}}</span>
                         </div>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
                         </a>
                         <p class="post-meta">
                             Posted By
-                            <a href="#">Admin</a>
+                            <a href="#">{{params[blog_user]}}</a>
                             on {{posts.date}}
                         </p>
                     </div>
