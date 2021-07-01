@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from flask_mail import Mail,Message
 from datetime import datetime
 from werkzeug.utils import secure_filename
+import math
 
 
 with open("config.json",'r' ) as config_file:
@@ -50,9 +51,25 @@ class Posts(db.Model):
 
 
 @app.route("/")
-def home():
-    post = Posts.query.filter_by().all()[0:params['blog_display']]
-    return render_template('index.html',params = params ,post=post)
+def home() :
+    posts = Posts.query.filter_by().all()
+    last = math.ceil(len(posts) / int(params['blog_display']))
+    page = request.args.get('page')
+    if (not str(page).isnumeric()) :
+        page = 1
+    page = int(page)
+    posts = posts[(page - 1) * int(params['blog_display']) :(page - 1) * int(params['blog_display']) + int(params['blog_display'])]
+    if page == 1 :
+        prev = "#"
+        next = "/?page=" + str(page + 1)
+    elif page == last:
+        prev = "/?page=" + str(page - 1)
+        next = "#"
+    else :
+        prev = "/?page=" + str(page - 1)
+        next = "/?page=" + str(page + 1)
+
+    return render_template('index.html', params=params, posts=posts, prev=prev, next=next)
 
 @app.route("/homeclick")
 def homeclick():
@@ -119,6 +136,14 @@ def dashboard():
 
         return render_template('dashboard.html',params = params)
 
+@app.route("/delete/<string:sno>" , methods=['GET','POST'])
+def delete(sno) :
+    if ('user' in session) and (session['user'] == params['login_email']) :
+            post = Posts.query.filter_by(sno=sno).first()
+            db.session.delete(post)
+            db.session.commit()
+            return render_template('after_login.html', params=params, post=post, sno=sno)
+
 @app.route("/edit/<string:sno>" , methods=['GET','POST'])
 def edit(sno):
     if ('user' in session) and (session['user'] == params['login_email']) :
@@ -147,6 +172,8 @@ def edit(sno):
 
         post = Posts.query.filter_by(sno=sno).first()
         return render_template('edit_post.html',params = params ,post =post , sno=sno)
+
+
 
 if __name__ == '__main__':
     app.secret_key = 'super secret key'

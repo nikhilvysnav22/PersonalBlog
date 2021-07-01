@@ -40,9 +40,10 @@
                                       <th scope="row">{{posts.sno}}</th>
                                       <td>{{posts.title}}</td>
                                       <td>{{posts.slug}}</td>
-                                        <td><a href="/edit/{{ posts.sno}}"><button class="btn btn-primary">Edit
+                                        <td><a href="/edit/{{posts.sno}}"><button class="btn btn-primary">Edit
                                             </button></a></td>
-                                        <td><button type="button" class="btn btn-primary">Delete</button></td>
+                                        <td><a href="/delete/{{posts.sno}}"><button class="btn btn-primary">Delete
+                                            </button></a></td>
                                     </tr>
                                   {% endfor %}
                                   </tbody>
