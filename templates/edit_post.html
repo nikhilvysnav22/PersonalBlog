@@ -11,27 +11,31 @@
         <!-- Main Content-->
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
+                     <h1>Basic Actions</h1>
+                <a href="/dashboard">  <button class="btn btn-primary"> Dashboard Home</button></a>
+                <a href="/logout">  <button class="btn btn-primary"> Logout</button></a>
+                <hr>
+                <h1>Add/Edit Post</h1>
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <form id="contactForm" data-sb-form-api-token="API_TOKEN" action="/edit/{{sno}}" method="post" novalidate>
                                 <div class="form-floating">
-                                    <input class="form-control" name ="title" id="title" type="text" placeholder="Title..." data-sb-validations="required" />
+                                    <input class="form-control" name ="title" id="title" value="{{post.title}}" type="text" placeholder="Title..." data-sb-validations="required" />
                                     <label for="title">Title</label>
                                     <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
                                 </div>
                                 <div class="form-floating">
-                                    <input class="form-control" name="slug" id="slug" type="text" placeholder="Slug..." data-sb-validations="required" />
+                                    <input class="form-control" name="slug" id="slug" value="{{post.slug}}" type="text" placeholder="Slug..." data-sb-validations="required" />
                                     <label for="slug">Slug</label>
                                     <div class="invalid-feedback" data-sb-feedback="slug:required">Slug is required.</div>
                                 </div>
                                  <div class="form-floating">
-                                    <textarea class="form-control" name="content_name"  id="content_name" placeholder="Enter the Content..." style="height: 12rem" data-sb-validations="required"></textarea>
-                                    <label for="image_name">Content</label>
-                                    <div class="invalid-feedback" data-sb-feedback="image_name:required">Content required.</div>
+                                    <textarea class="form-control" name="content_name" id="content_name" value="{{post.content}}" type="text" placeholder="Enter the Content..." style="height: 12rem"></textarea>
+                                    <label for="content_name">Content</label>
+                                    <div class="invalid-feedback" data-sb-feedback="content_name:required">Content required.</div>
                                 </div>
                                 <div class="form-floating">
-                                    <input class="form-control" name="image_name"  id="image_name" placeholder="Enter image Name..." style="height: 12rem" data-sb-validations="required"></input>
+                                    <input class="form-control" name="image_name" value="{{post.img_file}}" id="image_name" placeholder="Enter image Name..." style="height: 12rem"></input>
                                     <label for="image_name"> Image Label</label>
-                                    <div class="invalid-feedback" data-sb-feedback="image_name:required">image is required.</div>
                                 </div>
                                 <br />
                                 <!-- Submit success message-->

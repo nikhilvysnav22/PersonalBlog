@@ -1,15 +1,17 @@
-import json
+import json,os
 from flask import Flask , render_template ,redirect, url_for, request , session
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_mail import Mail,Message
 from datetime import datetime
+from werkzeug.utils import secure_filename
 
 
 with open("config.json",'r' ) as config_file:
     params = json.load(config_file)["params"]
 
 app = Flask(__name__)
+app.config['file_location'] = params['file_location']
 
 app.config.update(
     MAIL_SERVER='smtp.gmail.com',
@@ -66,6 +68,20 @@ def post(post_slug) :
     post = Posts.query.filter_by(slug=post_slug).first()
     return render_template('post.html', params=params, post=post)
 
+@app.route("/upload", methods=['GET', 'POST'])
+def upload() :
+    if ('user' in session) and (session['user'] == params['login_email']) :
+        if request.method == ['POST']:
+            f = request.files['filename']
+            f.save(os.path.join(app.config['file_location']),secure_filename(f.filename))
+    return "File uploaded"
+
+@app.route("/logout", methods=['GET', 'POST'])
+def logout() :
+    if ('user' in session) and (session['user'] == params['login_email']) :
+            session.pop('user')
+            return redirect('/dashboard')
+
 @app.route("/contact" , methods=['POST', 'GET'])
 def contact():
     if request.method == 'POST' :
@@ -92,18 +108,18 @@ def dashboard():
         post = Posts.query.filter_by().all()[0 :params['blog_display']]
 
         if ('user' in session) and (session['user'] == params['login_email']):
-            return render_template('after_login.html',params = params , post = post)
+            return render_template('after_login.html',params = params , post=post)
 
         if request.method == 'POST' :
             username = request.form.get('uemail')
             userpassword = request.form.get('upassword')
             if (username == params['login_email']) and (userpassword == params['login_password']):
                 session['user'] = username
-                return render_template('after_login.html',params = params , post=post)
+                return render_template('after_login.html',params=params , post=post)
 
         return render_template('dashboard.html',params = params)
 
-@app.route("/edit/<string:sno>" , methods =['GET','POST'])
+@app.route("/edit/<string:sno>" , methods=['GET','POST'])
 def edit(sno):
     if ('user' in session) and (session['user'] == params['login_email']) :
         if request.method == 'POST' :
@@ -112,8 +128,6 @@ def edit(sno):
             content_name = request.form.get('content_name')
             image_name = request.form.get('image_name')
             date_time = datetime.now()
-            print(sno)
-            print('testing')
 
             if sno == '0':
                 edit_posts = Posts(title=title, content=content_name, date=date_time, slug=slug , img_file=image_name)
@@ -127,11 +141,12 @@ def edit(sno):
                 post.slug = slug
                 post.img_file = image_name
                 db.session.commit()
+
+                print(content_name)
                 return redirect("/edit/"+sno)
 
         post = Posts.query.filter_by(sno=sno).first()
         return render_template('edit_post.html',params = params ,post =post , sno=sno)
-
 
 if __name__ == '__main__':
     app.secret_key = 'super secret key'

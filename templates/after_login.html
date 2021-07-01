@@ -11,21 +11,27 @@
                                 <caption>Blog Posts</caption>
                                 <h1>Basic Actions</h1>
                                 <hr>
-                                <button class="btn btn-primary"><a href="/edit/0">Add A New Post</a></button>
+                                 <a href="/edit/0">  <button class="btn btn-primary"> Add a new post</button></a>
+                                 <hr>
+                                 <a href="/logout">  <button class="btn btn-primary"> Logout</button></a>
+                                 <form action="/logout"></form>
                                 <hr>
                                 <div class = "row ">
                                 </div>
-                                <h1>Edit Posts</h1>
+                                <h1>File Upload</h1>
                                  <hr>
-                                <button class="btn btn-primary"><a href="/edit/{{post.sno}}">Edit post</a></button>
+                                <form action="/upload" method="post" enctype="multipart/form-data">
+                                <input type="file" id="filename" name="filename">
+                                <input button class="btn btn-primary" type="submit" id="button" name="button">
+                                </form>
                                 <hr>
                                   <thead>
                                     <tr>
                                       <th scope="col">SNO</th>
                                       <th scope="col">Title</th>
                                       <th scope="col">Slug</th>
-                                        <th scope="col">Edit Section</th>
-                                        <th scope="col">Delete Section</th>
+                                        <th scope="col">Edit</th>
+                                        <th scope="col">Delete</th>
                                     </tr>
                                   </thead>
                                   <tbody>

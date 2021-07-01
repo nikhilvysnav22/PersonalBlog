@@ -20,6 +20,7 @@
     "blog_name": "Nik's Blog",
     "sbhd_blog_name": "Blog",
     "blog_user": "Admin",
-    "title_admin": "Admin Panel"
+    "title_admin": "Admin Panel",
+    "file_location": "//Users//nikhilvysnav//Desktop//Folders//Project Flask//static//img//"
   }
 }
