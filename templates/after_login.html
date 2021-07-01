@@ -9,16 +9,20 @@
                         <div class="my-5">
                             <table class="table">
                                 <caption>Blog Posts</caption>
-                                <h1>File Upload</h1>
+                                <h1>Basic Actions</h1>
+                                <hr>
+                                <button class="btn btn-primary"><a href="/edit/0">Add A New Post</a></button>
+                                <hr>
                                 <div class = "row ">
-<!--                                    File Upload-->
                                 </div>
                                 <h1>Edit Posts</h1>
+                                 <hr>
+                                <button class="btn btn-primary"><a href="/edit/{{post.sno}}">Edit post</a></button>
+                                <hr>
                                   <thead>
                                     <tr>
                                       <th scope="col">SNO</th>
                                       <th scope="col">Title</th>
-                                      <th scope="col">Content</th>
                                       <th scope="col">Slug</th>
                                         <th scope="col">Edit Section</th>
                                         <th scope="col">Delete Section</th>
@@ -30,7 +34,8 @@
                                       <th scope="row">{{posts.sno}}</th>
                                       <td>{{posts.title}}</td>
                                       <td>{{posts.slug}}</td>
-                                        <td><button type="button" class="btn btn-primary">Edit</button></td>
+                                        <td><a href="/edit/{{ posts.sno}}"><button class="btn btn-primary">Edit
+                                            </button></a></td>
                                         <td><button type="button" class="btn btn-primary">Delete</button></td>
                                     </tr>
                                   {% endfor %}

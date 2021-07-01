@@ -11,7 +11,6 @@ with open("config.json",'r' ) as config_file:
 
 app = Flask(__name__)
 
-
 app.config.update(
     MAIL_SERVER='smtp.gmail.com',
     MAIL_PORT='465',
@@ -28,11 +27,9 @@ if local_server :
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = params['prod_url']
 
-# initialize
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-# To Db
 class PostTable(db.Model):
     sno = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
     date = db.Column(db.DateTime, default= datetime.now())
@@ -55,7 +52,7 @@ def home():
     post = Posts.query.filter_by().all()[0:params['blog_display']]
     return render_template('index.html',params = params ,post=post)
 
-@app.route("/homeclick/")
+@app.route("/homeclick")
 def homeclick():
     post = Posts.query.filter_by().all()
     return render_template('index.html',params = params , post=post)
@@ -64,29 +61,10 @@ def homeclick():
 def about():
     return render_template('about.html', params=params)
 
-@app.route("/dashboard" , methods=['GET','POST'])
-def dashboard():
-    if request.method == 'POST':
-        username = request.form.get('uemail')
-        userpassword = request.form.get('upassword')
-        post = Posts.query.filter_by().all()[0 :params['blog_display']]
-
-        if ('user' in session) and (session['user'] == params['login_email']):
-            return render_template('after_login.html',params = params , post = post)
-
-        if (username == params['login_email']) and (userpassword == params['login_password']):
-            session['user'] = username
-            return render_template('after_login.html',params = params , post=post)
-
-    return render_template('dashboard.html',params = params)
-
-
-@app.route("/post/<string:post_slug>" , methods = ['GET','POST'])
-def post(post_slug):
-
+@app.route("/post/<string:post_slug>", methods=['GET', 'POST'])
+def post(post_slug) :
     post = Posts.query.filter_by(slug=post_slug).first()
-    return render_template('post.html',params = params , post=post)
-
+    return render_template('post.html', params=params, post=post)
 
 @app.route("/contact" , methods=['POST', 'GET'])
 def contact():
@@ -108,6 +86,52 @@ def contact():
         mail.send(msg)
 
     return render_template('contact.html',params = params)
+
+@app.route("/dashboard" , methods=['GET','POST'])
+def dashboard():
+        post = Posts.query.filter_by().all()[0 :params['blog_display']]
+
+        if ('user' in session) and (session['user'] == params['login_email']):
+            return render_template('after_login.html',params = params , post = post)
+
+        if request.method == 'POST' :
+            username = request.form.get('uemail')
+            userpassword = request.form.get('upassword')
+            if (username == params['login_email']) and (userpassword == params['login_password']):
+                session['user'] = username
+                return render_template('after_login.html',params = params , post=post)
+
+        return render_template('dashboard.html',params = params)
+
+@app.route("/edit/<string:sno>" , methods =['GET','POST'])
+def edit(sno):
+    if ('user' in session) and (session['user'] == params['login_email']) :
+        if request.method == 'POST' :
+            title = request.form.get('title')
+            slug = request.form.get('slug')
+            content_name = request.form.get('content_name')
+            image_name = request.form.get('image_name')
+            date_time = datetime.now()
+            print(sno)
+            print('testing')
+
+            if sno == '0':
+                edit_posts = Posts(title=title, content=content_name, date=date_time, slug=slug , img_file=image_name)
+                db.session.add(edit_posts)
+                db.session.commit()
+            else:
+                post = Posts.query.filter_by(sno=sno).first()
+                post.title = title
+                post.content = content_name
+                post.date = date_time
+                post.slug = slug
+                post.img_file = image_name
+                db.session.commit()
+                return redirect("/edit/"+sno)
+
+        post = Posts.query.filter_by(sno=sno).first()
+        return render_template('edit_post.html',params = params ,post =post , sno=sno)
+
 
 if __name__ == '__main__':
     app.secret_key = 'super secret key'

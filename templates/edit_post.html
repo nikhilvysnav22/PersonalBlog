@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% block body %}
+            <header class="masthead" style="background-image: url('/static/img/home-bg.jpg')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Main Content-->
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <form id="contactForm" data-sb-form-api-token="API_TOKEN" action="/edit/{{sno}}" method="post" novalidate>
+                                <div class="form-floating">
+                                    <input class="form-control" name ="title" id="title" type="text" placeholder="Title..." data-sb-validations="required" />
+                                    <label for="title">Title</label>
+                                    <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                                </div>
+                                <div class="form-floating">
+                                    <input class="form-control" name="slug" id="slug" type="text" placeholder="Slug..." data-sb-validations="required" />
+                                    <label for="slug">Slug</label>
+                                    <div class="invalid-feedback" data-sb-feedback="slug:required">Slug is required.</div>
+                                </div>
+                                 <div class="form-floating">
+                                    <textarea class="form-control" name="content_name"  id="content_name" placeholder="Enter the Content..." style="height: 12rem" data-sb-validations="required"></textarea>
+                                    <label for="image_name">Content</label>
+                                    <div class="invalid-feedback" data-sb-feedback="image_name:required">Content required.</div>
+                                </div>
+                                <div class="form-floating">
+                                    <input class="form-control" name="image_name"  id="image_name" placeholder="Enter image Name..." style="height: 12rem" data-sb-validations="required"></input>
+                                    <label for="image_name"> Image Label</label>
+                                    <div class="invalid-feedback" data-sb-feedback="image_name:required">image is required.</div>
+                                </div>
+                                <br />
+                                <!-- Submit success message-->
+                                <!---->
+                                <!-- This is what your users will see when the form-->
+                                <!-- has successfully submitted-->
+                                <div class="d-none" id="submitSuccessMessage">
+                                    <div class="text-center mb-3">
+                                        <div class="fw-bolder">Form submission successful!</div>
+                                        To activate this form, sign up at
+                                        <br />
+                                        <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                                    </div>
+                                </div>
+                                <!-- Submit error message-->
+                                <!---->
+                                <!-- This is what your users will see when there is-->
+                                <!-- an error submitting the form-->
+                                <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
+                                <!-- Submit Button-->
+                                <button class="btn btn-primary" id="submitButton" type="submit">Submit</button>
+                            </form>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
